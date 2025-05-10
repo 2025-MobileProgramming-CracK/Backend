@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 
 public class UserInfoRequestDto {
 
-  private String usernmae;
+  private String username;
   private String email;
   private String password;
   private String phoneNumber;
@@ -23,7 +23,7 @@ public class UserInfoRequestDto {
 
   public User toSaveUser(){
     return User.builder()
-        .username(this.usernmae)
+        .username(this.username)
         .email(this.email)
         .password(this.password)
         .phoneNumber(this.phoneNumber)
