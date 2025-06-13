@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,7 +21,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Builder
 @Table(name = "user")
-
+@Setter
 public class User extends BaseEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,6 +41,10 @@ public class User extends BaseEntity {
 
   @Enumerated(EnumType.STRING)
   private Region region;
+
+
+  @Column
+  private String imageUrl;
 
   @Enumerated(EnumType.STRING)
   private Role role;
