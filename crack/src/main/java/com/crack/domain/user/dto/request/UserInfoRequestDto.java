@@ -1,6 +1,5 @@
 package com.crack.domain.user.dto.request;
 
-import com.crack.domain.user.entity.Region;
 import com.crack.domain.user.entity.Role;
 import com.crack.domain.user.entity.User;
 import lombok.AllArgsConstructor;
@@ -19,7 +18,7 @@ public class UserInfoRequestDto {
   private String email;
   private String password;
   private String phoneNumber;
-  private Region region;
+  private String region;
 
   public User toSaveUser(){
     return User.builder()

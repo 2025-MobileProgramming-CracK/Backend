@@ -11,4 +11,10 @@ public interface PostService {
   Long create(Long userId, PostCreateRequestDto postCreateRequestDto, MultipartFile image);
 
   List<PostGetResponseDto> getAllPosts();
+
+  void likePost(Long postId);
+
+  List<PostGetResponseDto> getLatestPosts(Long postId);
+
+  List<PostGetResponseDto> getMyPosts(Long userId);
 }

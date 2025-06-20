@@ -10,11 +10,7 @@ import com.crack.global.config.aws.S3Service;
 import com.crack.global.config.jwt.JwtToken;
 import com.crack.global.config.jwt.JwtUtil;
 import jakarta.transaction.Transactional;
-import java.io.IOException;
-import java.util.UUID;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,9 +23,6 @@ public class UserServiceImpl implements UserService {
   private final PasswordEncoder passwordEncoder;
   private final JwtUtil jwtUtil;
   private final S3Service s3Service;
-
-  @Value("${cloud.aws.s3.bucket}")
-  private String bucket;
 
   @Override
   @Transactional
@@ -71,7 +64,6 @@ public class UserServiceImpl implements UserService {
   public String addProfile(Long userId, MultipartFile imageFile) {
     User user = userRepository.findById(userId)
         .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
-
     String imageUrl = s3Service.uploadFile("profile", imageFile);
     user.setImageUrl(imageUrl);
     userRepository.save(user);

@@ -16,11 +16,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -38,7 +38,7 @@ public class UserController {
   @PostMapping("/signUp")
   public ResponseEntity<CustomApiResponse<String>> signUp(@RequestBody UserInfoRequestDto userInfoRequestDto) {
     userService.signUp(userInfoRequestDto);
-    return ResponseEntity.status(HttpStatus.OK).body(CustomApiResponse.onSuccess("회원가입성공함"));
+    return ResponseEntity.status(HttpStatus.OK).body(CustomApiResponse.onSuccess("회원가입성공 했습니다"));
   }
 
   @Operation(summary = "로그인", description = "회원 로그인을 처리합니다.")
@@ -48,36 +48,28 @@ public class UserController {
     return ResponseEntity.status(HttpStatus.OK).body(CustomApiResponse.onSuccess(tokenResponseDto));
   }
   @Operation(summary = "사용자 정보 조회", description = "사용자의 정보를 조회합니다.")
-  @GetMapping("/info")
-  public ResponseEntity<CustomApiResponse<UserInfoResponseDto>> info(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
+  @GetMapping("/getInfo")
+  public ResponseEntity<CustomApiResponse<UserInfoResponseDto>> getInfo(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
     Long userId = customUserDetails.getId();
     UserInfoResponseDto userInfoResponseDto = userService.info(userId);
     return ResponseEntity.status(HttpStatus.OK).body(CustomApiResponse.onSuccess(userInfoResponseDto));
   }
 
 
-  @Operation(summary = "사용자 탈퇴", description = "사용자의 탈퇴합니다.")
-  @PostMapping("/delete")
+  @Operation(summary = "사용자 탈퇴", description = " 사용자 탈퇴합니다.")
+  @DeleteMapping("/delete")
   public ResponseEntity<CustomApiResponse<String>> deleteUser(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
     Long userId = customUserDetails.getId();
     userService.deleteUser(userId);
-    return ResponseEntity.status(HttpStatus.OK).body(CustomApiResponse.onSuccess("탈퇴 성공함"));
+    return ResponseEntity.status(HttpStatus.OK).body(CustomApiResponse.onSuccess("탈퇴 성공했습니다."));
   }
 
-  @Operation(summary = "사용자 프로필 생성", description = "사용자의 정보를 조회합니다.")
-  @PostMapping(value = "/image", consumes =MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+  @Operation(summary = "사용자 프로필 추가", description = "사용자 프로필 이미지를 추가합니다.")
+  @PostMapping(value = "/uploadProfileImage", consumes =MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<CustomApiResponse<String>> addProfile(@AuthenticationPrincipal CustomUserDetails customUserDetails, @RequestPart MultipartFile imageFile) {
     Long userId = customUserDetails.getId();
     String imageUrl= userService.addProfile(userId,imageFile);
     return ResponseEntity.status(HttpStatus.OK).body(CustomApiResponse.onSuccess(imageUrl));
   }
-
-
-
-
-
-
-
-
 
 }

@@ -74,21 +74,19 @@ public class CalendarServiceImpl implements CalendarService {
 
     LocalDate startOfMonth = LocalDate.of(year.intValue(), month.intValue(), 1);
     LocalDate endOfMonth = startOfMonth.withDayOfMonth(startOfMonth.lengthOfMonth());
-
-    // 날짜 범위에 해당하는 일정 모두 가져오기
     List<Calendar> calendars = calendarRepository.findAllByUserIdAndDateBetween(
         userId,
         startOfMonth.atStartOfDay(),
         endOfMonth.atTime(23, 59, 59)
     );
 
-    // 일정 있는 날짜만 추출해서 중복 제거 후 반환
     return calendars.stream()
-        .map(calendar -> calendar.getDate().toLocalDate())  // LocalDateTime → LocalDate
+        .map(calendar -> calendar.getDate().toLocalDate())
         .distinct()
         .sorted()
         .collect(Collectors.toList());
   }
+
 
 
 }
