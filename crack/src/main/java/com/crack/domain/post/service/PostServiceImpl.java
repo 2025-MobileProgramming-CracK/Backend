@@ -9,6 +9,7 @@ import com.crack.domain.post.repository.PostRepository;
 import com.crack.domain.user.entity.User;
 import com.crack.domain.user.repository.UserRepository;
 import com.crack.global.config.aws.S3Service;
+import com.crack.global.config.fastapi.ExternalApiService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,10 +23,16 @@ public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final S3Service s3Service;
+    private final ExternalApiService externalApiService;
 
     @Override
     public Long create(Long userId, PostCreateRequestDto postCreateRequestDto, MultipartFile image) {
         User user =findUserOrThrow(userId);
+
+        boolean isValid = externalApiService.sendImageToFastApi(image).block();
+        if (!isValid) {
+            throw new IllegalStateException("FastAPI 이미지 검증 실패");
+        }
 
         String imageUrl = s3Service.uploadFile("user/" + userId, image);
         Post post =PostConverter.toEntity(
