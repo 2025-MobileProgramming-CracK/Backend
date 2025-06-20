@@ -1,13 +1,17 @@
 package com.crack.domain.post.service;
 
 
+import static java.util.Arrays.stream;
+
 import com.crack.domain.post.converter.PostConverter;
 import com.crack.domain.post.dto.request.PostCreateRequestDto;
+import com.crack.domain.post.dto.response.PostGetResponseDto;
 import com.crack.domain.post.entity.Post;
 import com.crack.domain.post.repository.PostRepository;
 import com.crack.domain.user.entity.User;
 import com.crack.domain.user.repository.UserRepository;
 import com.crack.global.config.aws.S3Service;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -33,6 +37,22 @@ public class PostServiceImpl implements PostService {
             imageUrl,
             user);
         return postRepository.save(post).getId();
+    }
+
+    @Override
+    public List<PostGetResponseDto> getAllPosts() {
+        List<Post> posts = postRepository.findAllByOrderByUpdatedAtDesc();
+        return posts.stream()
+                .map(post -> PostGetResponseDto.builder()
+                        .id(post.getId())
+                        .userName(post.getUser().getUsername())
+                        .title(post.getTitle())
+                        .imageUrl(post.getImageUrl())
+                        .likeCount(post.getLikeCount())
+                        .updatedAt(post.getUpdatedAt())
+                        .build())
+                .toList();
+        )
     }
 
 }

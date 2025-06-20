@@ -1,11 +1,12 @@
 package com.crack.domain.post.dto.response;
 
 
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.joda.time.LocalDateTime;
+
 
 @Builder
 @Getter
@@ -13,8 +14,10 @@ import org.joda.time.LocalDateTime;
 @AllArgsConstructor
 public class PostGetResponseDto {
   private Long id;
+  private String userName;
   private String title;
-  private String content;
-  private LocalDateTime date;
+  private String imageUrl;
+  private Long likeCount;
+  private LocalDateTime updatedAt;
 
 }
