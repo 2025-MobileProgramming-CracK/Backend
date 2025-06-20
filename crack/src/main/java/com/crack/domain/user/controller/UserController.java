@@ -68,8 +68,8 @@ public class UserController {
   @PostMapping(value = "/image", consumes =MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<CustomApiResponse<String>> addProfile(@AuthenticationPrincipal CustomUserDetails customUserDetails, @RequestPart MultipartFile imageFile) {
     Long userId = customUserDetails.getId();
-    userService.addProfile(userId,imageFile);
-    return ResponseEntity.status(HttpStatus.OK).body(CustomApiResponse.onSuccess("프로필 생성됌"));
+    String imageUrl= userService.addProfile(userId,imageFile);
+    return ResponseEntity.status(HttpStatus.OK).body(CustomApiResponse.onSuccess(imageUrl));
   }
 
 

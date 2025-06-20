@@ -17,4 +17,5 @@ public class UserInfoResponseDto {
   private String username;
   private String phoneNumber;
   private Region region;
+  private String profileImageUrl;
 }

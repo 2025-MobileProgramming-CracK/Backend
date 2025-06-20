@@ -16,6 +16,6 @@ public interface UserService {
 
   void deleteUser(Long userId);
 
-  void addProfile(Long userId, MultipartFile imageFile);
+  String addProfile(Long userId, MultipartFile imageFile);
 
 }
