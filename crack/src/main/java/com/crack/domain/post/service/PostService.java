@@ -8,13 +8,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface PostService {
 
-  Long create(Long userId, PostCreateRequestDto postCreateRequestDto, MultipartFile image);
+  String create(Long userId, PostCreateRequestDto postCreateRequestDto, MultipartFile image);
 
   List<PostGetResponseDto> getAllPosts();
 
   void likePost(Long postId);
 
-  List<PostGetResponseDto> getLatestPosts(Long postId);
+  List<PostGetResponseDto> getLikePosts();
 
   List<PostGetResponseDto> getMyPosts(Long userId);
 }

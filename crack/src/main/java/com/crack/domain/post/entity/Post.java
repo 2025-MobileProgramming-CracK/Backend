@@ -38,8 +38,9 @@ public class Post extends BaseEntity {
   @Column
   private String imageUrl;
 
-  @Column
-  private Long likeCount;
+  @Builder.Default
+  @Column(nullable = false, columnDefinition = "BIGINT DEFAULT 0")
+  private Long likeCount = 0L;
 
 
   @JoinColumn(name = "user_id", nullable = false)
